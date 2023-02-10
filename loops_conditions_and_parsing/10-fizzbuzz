@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#Write a Bash script that gives you information about the school file
+
+for number in {1..100}
+do
+	if (( number % 3 == 0 && number % 5 == 0))
+	then
+		echo "FizzBuzz"
+	elif (( number % 3 == 0 ))
+	then
+		echo "Fizz"
+	elif (( number % 5 == 0 ))
+	then
+		echo "Buzz"
+	else
+		echo "$number"
+	fi
+done 

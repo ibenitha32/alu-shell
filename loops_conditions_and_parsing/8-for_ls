@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#display the conted of the curret file in the list format
+
+list=$(ls)
+for i in $list;do
+	echo "$i" | cut -d '-' -f2
+done

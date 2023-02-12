@@ -1,26 +1,40 @@
 #!/usr/bin/env bash
-# init script to manage the process in manage_my_process script
-#pid_file="/var/run/my_process.pid"
-case "$1" in
-	start)
-		./manage_my_process &
-		echo "$!" > /var/run/my_process.pid
-		echo "manage_my_process started"
-		;;
-	stop)
-		pkill -f ./manage_my_process
-		rm /var/run/my_process.pid
-		echo "manage_my_process stopped"
-		;;
-	restart)
-		pkill -f ./manage_my_process
-		./manage_my_process &
-		echo "$!" > /var/run/my_process.pid
-		echo "manage_my_process restarted"
-		;;
+#starts stop restart script depending on the argument passed
+
+function startup(){
+	bash ./manage_my_process &
+	echo "$!" > /var/run/my_process.pid
+}
+
+function stopnow(){
+	[ -e "/var/run/my_process.pid" ] && pkill -f './manage_my_process' && rm /var/run/my_process.pid 
+}
+
+function restartnow(){
+	stopnow
+	startup
+	echo "manage_my_process restarted"
+}
+if [ $# -eq 1 ] 
+then
+	OPTIONN="$1"
+	case $OPTIONN in
+	"start")
+		startup
+	echo "manage_my_process started"
+	;;
+	"stop")
+		#stopnow
+		stopnow
+	      	echo "manage_my_process stopped"
+	;;
+        "restart")
+	restartnow
+	;;
 	*)
-	# make sure to handle no parameter
 	echo "Usage: manage_my_process {start|stop|restart}"
-	exit 1
-esac
-	
+	;;
+       esac
+else 
+	echo "Usage: manage_my_process {start|stop|restart}"
+fi

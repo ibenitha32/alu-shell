@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# init script to manage the process in manage_my_process script
+#pid_file="/var/run/my_process.pid"
